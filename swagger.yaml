@@ -1,0 +1,1124 @@
+swagger: "2.0"
+info:
+  description: |
+    Specification for the TrustNo1 API.
+  version: "1.0.0"
+  title: TrustNo1
+  contact:
+    name: pascal.gremaud@unifr.ch
+schemes:
+  - http
+paths:
+  /actions:
+    get:
+      tags:
+        - action
+      summary: Get actions. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Action"
+        "403": 
+          description: Unauthorized (not admin)
+  /actions/{actionId}:
+    get:
+      tags:
+        - action
+      summary: Get an action by ID. The client making the request needs to have admin rights. The "completionTime" attribute of the clients and urls is present and is the time of completion if the action has already been fulfilled  (if the client has received the message, or if the request to the given url was successful).
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: actionId
+          description: ID of the action
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Action"
+        "400":
+          description: Invalid actionId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Action not found
+    delete:
+      tags:
+        - action
+      summary: Delete an action by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: actionId
+          description: ID of the action
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid actionId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Action not found
+  /actionTypes:
+    get:
+      tags:
+        - actionType
+      summary: Get the action types. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ActionType"
+        "403": 
+          description: Unauthorized (not admin)
+    post:
+      tags:
+        - actionType
+      summary: Create a new Action type. The client making the request needs to have admin rights.
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: actionType
+          description: The action type to create
+          schema: 
+            $ref: "#/definitions/ActionTypePartial"
+      responses:
+        "201": 
+          description: Action type created
+          schema:
+            $ref: "#/definitions/ActionType"
+        "422": 
+          description: Missing or invalid payload elements
+        "403": 
+          description: Unauthorized (not admin)
+  /actionTypes/{actionTypeId}:
+    get:
+      tags:
+        - actionType
+      summary: Get an action type by ID. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: actionTypeId
+          description: ID of the action type
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/ActionType"
+        "400":
+          description: Invalid actionTypeId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Action type not found
+    put:
+      tags:
+        - actionType
+      summary: Update an action type
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: actionTypeId
+          description: Id of the action type
+          required: true
+          type: integer
+        - in: body
+          name: actionType
+          description: Updated action type object
+          required: true
+          schema: 
+            $ref: "#/definitions/ActionTypePartial"
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+            description: Invalid actionTypeId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Action type not found
+        "422": 
+          description: Missing or invalid payload elements
+    delete:
+      tags:
+        - actionType
+      summary: Delete an action type by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: actionTypeId
+          description: ID of the action type
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid actionTypeId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Action type not found
+        "409":
+          description: Conflict with entities referencing this resource. You need to delete these entities first.
+  /clients:
+    get:
+      tags:
+        - client
+      summary: Get clients. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Client"
+        "403": 
+          description: Unauthorized (not admin)
+    post:
+      tags:
+        - client
+      summary: Create a new client. The client making the request needs to have admin rights.
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: client
+          description: The client to create
+          schema:
+            $ref: "#/definitions/ClientPartial"
+      responses:
+        "201": 
+          description: Client created
+          schema:
+            $ref: "#/definitions/Client"
+        "403": 
+          description: Unauthorized (not admin)
+        "422": 
+          description: Missing or invalid payload elements
+  /clients/{clientId}:
+    get:
+      tags:
+        - client
+      summary: Get a client by ID. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: clientId
+          description: ID of the client
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Client"
+        "400":
+          description: Invalid clientId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Client not found
+    put:
+      tags:
+        - client
+      summary: Update a client
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: clientId
+          description: Id of the client
+          required: true
+          type: integer
+        - in: body
+          name: client
+          description: Updated client object
+          required: true
+          schema: 
+            $ref: "#/definitions/ClientPartial"
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid clientId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: User not found
+        "422": 
+          description: Missing or invalid payload elements
+    delete:
+      tags:
+        - client
+      summary: Delete a client by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: clientId
+          description: ID of the client
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid clientId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404": 
+          description: Client not found
+        "409":
+          description: Conflict with entities referencing this resource. You need to delete these entities first.
+  /clients/{clientId}/actionMessages:
+    get:
+      tags:
+        - actionMessage
+      summary: Get action messages. The client making the request needs to have admin rights or be the client referenced in the path.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: clientId
+          description: ID of the client
+          required: true
+          type: integer
+        - in: query 
+          name: start
+          description: Number of action messages to skip + 1
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/ActionMessage"
+        "400":
+          description: Invalid clientId supplied
+        "403": 
+          description: Unauthorized
+  /clients/{clientId}/actionMessages/{actionMessageId}:
+    get:
+      tags:
+        - actionMessage
+      summary: Get an action message. The client making the request needs to have admin rights or be the client referenced in the path.
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: clientId
+          description: Id of the client
+          required: true
+          type: integer
+        - in: path
+          name: actionMessageId
+          description: Id of the action message
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/ActionMessage"
+        "400":
+          description: Invalid clientId or actionMessageId supplied
+        "403": 
+          description: Unauthorized
+        "404":
+          description: Action message not found
+    put:
+      tags:
+        - actionMessage
+      summary: Update an action message. The client making the request needs to have admin rights or be the client referenced in the path.
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: clientId
+          description: Id of the client
+          required: true
+          type: integer
+        - in: path
+          name: actionMessageId
+          description: Id of the action message
+          required: true
+          type: integer
+        - in: body
+          name: ActionMessage
+          description: Updated action message object
+          required: true
+          schema: 
+            $ref: "#/definitions/ActionMessagePartial"
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+            description: Invalid clientId or actionMessageId supplied
+        "403": 
+          description: Unauthorized
+        "404":
+          description: Action message not found
+        "422": 
+          description: Missing or invalid payload elements
+  /events:
+    get:
+      tags:
+        - event
+      summary: Get events. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Event"
+        "403": 
+          description: Unauthorized (not admin)
+    post:
+      tags:
+        - event
+      summary: Create a new event. The client making the request needs to be the one referenced in the body.
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: event
+          description: The event to create
+          schema: 
+            $ref: "#/definitions/EventPartial"
+      responses:
+        "201": 
+          description: Event created
+          schema:
+            $ref: "#/definitions/Event"
+        "403": 
+          description: Unauthorized (not the correct client)
+        "422": 
+          description: Missing or invalid payload elements
+  /events/{eventId}:
+    get:
+      tags:
+        - event
+      summary: Get an event by ID. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: eventId
+          description: ID of the event
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Event"
+        "400":
+          description: Invalid eventId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Action not found
+    delete:
+      tags:
+        - event
+      summary: Delete an event by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: eventId
+          description: ID of the event
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid eventId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Event not found
+        "409":
+          description: Conflict with entities referencing this resource. You need to delete these entities first.
+  /eventTypes:
+    get:
+      tags:
+        - eventType
+      summary: Get the event types. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/EventType"
+        "403": 
+          description: Unauthorized (not admin)
+    post:
+      tags:
+        - eventType
+      summary: Create a new Event type. The client making the request needs to have admin rights.
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: client
+          description: The event type to create
+          schema: 
+            $ref: "#/definitions/EventTypePartial"
+      responses:
+        "201": 
+          description: Event type created
+          schema:
+            $ref: "#/definitions/EventType"
+        "403": 
+          description: Unauthorized (not admin)
+        "422": 
+          description: Missing or invalid payload elements
+  /eventTypes/{eventTypeId}:
+    get:
+      tags:
+        - eventType
+      summary: Get an event type by ID. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: eventTypeId
+          description: ID of the event type
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/EventType"
+        "400":
+          description: Invalid eventTypeId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Event type not found
+    put:
+      tags:
+        - eventType
+      summary: Update an event type
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: eventTypeId
+          description: Id of the event type
+          required: true
+          type: integer
+        - in: body
+          name: eventType
+          description: Updated event type object
+          required: true
+          schema: 
+            $ref: "#/definitions/EventTypePartial"
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+            description: Invalid eventTypeId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Event type not found
+        "422": 
+          description: Missing or invalid payload elements
+    delete:
+      tags:
+        - eventType
+      summary: Delete an event type by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: eventTypeId
+          description: ID of the event type
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid eventTypeId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Event type not found
+        "409": 
+          description: Conflict with entities referencing this resource. You need to delete these entities first.
+  /urls:
+    get:
+      tags:
+        - url
+      summary: Get the urls defined for receiving a POST method after a rule is matched. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Url"
+        "403": 
+          description: Unauthorized (not admin)
+    post:
+      tags:
+        - url
+      summary: Create a new url. The client making the request needs to have admin rights.
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: url
+          description: The url to create
+          schema: 
+            $ref: "#/definitions/UrlPartial"
+      responses:
+        "201": 
+          description: Url created
+          schema:
+            $ref: "#/definitions/Url"
+        "403": 
+          description: Unauthorized (not admin)
+        "422": 
+          description: Missing or invalid payload elements
+  /urls/{urlId}:
+    get:
+      tags:
+        - url
+      summary: Get an url by ID. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: urlId
+          description: ID of the url
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Url"
+        "400":
+          description: Invalid urlId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Url not found
+    put:
+      tags:
+        - url
+      summary: Update an url
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: urlId
+          description: Id of the url
+          required: true
+          type: integer
+        - in: body
+          name: url
+          description: Updated url object
+          required: true
+          schema: 
+            $ref: "#/definitions/UrlPartial"
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+            description: Invalid urlId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Url not found
+        "422": 
+          description: Missing or invalid payload elements
+    delete:
+      tags:
+        - url
+      summary: Delete an url by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: urlId
+          description: ID of the url
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid urlId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Url not found
+        "409": 
+          description: Conflict with entities referencing this resource. You need to delete these entities first.
+  /rules:
+    get:
+      tags:
+        - rule
+      summary: Get rules. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Rule"
+        "403": 
+          description: Unauthorized (not admin)
+    post:
+      tags:
+        - rule
+      summary: Create a new rule. The client making the request needs to have admin rights.
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: rule
+          description: The rule to create
+          schema: 
+            $ref: "#/definitions/RulePartial"
+      responses:
+        "201": 
+          description: Rule created
+          schema:
+            $ref: "#/definitions/Rule"
+        "403": 
+          description: Unauthorized (not admin)
+        "422": 
+          description: Missing or invalid payload elements
+  /rules/{ruleId}:
+    get:
+      tags:
+        - rule
+      summary: Get a rule by ID. The client making the request needs to have admin rights.
+      description: ""
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: ruleId
+          description: ID of the rule
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: "#/definitions/Rule"
+        "400":
+          description: Invalid ruleId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: Rule not found
+    put:
+      tags:
+        - rule
+      summary: Update a rule
+      description: ""
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: ruleId
+          description: Id of the rule
+          required: true
+          type: integer
+        - in: body
+          name: rule
+          description: Updated rule object
+          required: true
+          schema: 
+            $ref: "#/definitions/RulePartial"
+      responses:
+        "403": 
+          description: Unauthorized (not admin)
+        "404":
+          description: User not found
+        "400":
+          description: Invalid clientId supplied
+        "422": 
+          description: Missing or invalid payload elements
+    delete:
+      tags:
+        - rule
+      summary: Delete a rule by ID. The client making the request needs to have admin rights.
+      description: ""
+      parameters:
+        - in: path
+          name: ruleId
+          description: ID of the rule
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid ruleId supplied
+        "403": 
+          description: Unauthorized (not admin)
+        "404": 
+          description: Rule not found
+        "409": 
+          description: Conflict with entities referencing this resource. You need to delete these entities first.
+
+definitions:
+  Action:
+    type: object
+    required: 
+      - id
+      - eventId
+      - ruleId
+      - actionTypeId
+      - message
+      - destClients
+      - destUrls
+    properties:
+      id:
+        type: integer
+      eventId:
+        type: integer
+      ruleId:
+        type: integer
+      actionTypeId: 
+        type: integer
+      message: 
+        type: string
+      destClients:
+        type: array
+        items:
+          type: object
+          required: 
+            - id
+          properties:
+            id: 
+              type: integer
+            completionTime: 
+              type: string
+              format: date-time
+      destUrls:
+        type: array
+        items:
+          type: object
+          required: 
+            - id
+          properties:
+            id: 
+              type: integer
+            completionTime: 
+              type: string
+              format: date-time
+  ActionMessage:
+    type: object
+    required: 
+      - id
+      - eventId
+      - ruleId
+      - actionTypeId
+      - message
+      - destClientId
+    properties:
+      id:
+        type: integer
+      eventId:
+        type: integer
+      ruleId:
+        type: integer
+      actionTypeId: 
+        type: integer
+      message: 
+        type: string
+      destClientId: 
+        type: integer
+      completionTime: 
+        type: string
+        format: date-time
+  ActionMessagePartial:
+    type: object
+    required: 
+      - completionTime
+    properties:
+      completionTime: 
+        type: string
+        format: date-time
+  ActionType:
+    type: object
+    required: 
+      - id
+      - name
+      - schema
+    properties:
+      id: 
+        type: integer
+        description: The ID of the action type
+      name: 
+        type: string
+        description: The name of the action type
+      schema:
+        type: object
+        description: The schema of the associated actions
+  ActionTypePartial:
+    type: object
+    properties:
+      name: 
+        type: string
+        description: The name of the action type
+      schema:
+        type: object
+        description: The schema of the associated actions
+  Client:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: The ID of the client
+      name: 
+        type: string
+        description: The name of the client
+      pubKey: 
+        type: string
+        description: The public key of the client
+      isAdmin: 
+        type: boolean
+        description: Whether or nto the client has admin rights
+      isActive:
+        type: boolean
+        description: Whether or not the client is active (is authorized to communicate with the server)
+  ClientPartial:
+    type: object
+    properties:
+      name: 
+        type: string
+        description: The name of the client
+      pubKey: 
+        type: string
+        description: The public key of the client
+      isAdmin: 
+        type: boolean
+        description: Wether or not the client has admin rights
+      isActive:
+        type: boolean
+        description: Whether or not the client is active (is authorized to communicate with the server)
+  Event:
+    type: object
+    required: 
+      - id
+      - clientId
+      - eventTypeId
+      - properties
+      - timestamp
+    properties:
+      id: 
+        type: integer
+        description: The ID of the event
+      clientId:
+        type: integer
+      eventTypeId: 
+        type: integer
+      properties:
+        type: object
+      timestamp:
+        type: string
+        format: date-time
+  EventPartial:
+    type: object
+    properties:
+      clientId:
+        type: integer
+      eventTypeId: 
+        type: integer
+      properties:
+        type: object
+      timestamp:
+        type: string
+        format: date-time
+  EventType:
+    type: object
+    required: 
+      - id
+      - name
+      - schema
+    properties:
+      id: 
+        type: integer
+        description: The ID of the event type
+      name: 
+        type: string
+        description: The name of the event type
+      schema:
+        type: object
+        description: The schema of the associated events
+  EventTypePartial:
+    type: object
+    properties:
+      name: 
+        type: string
+        description: The name of the event type
+      schema:
+        type: object
+        description: The schema of the associated events
+  Rule:
+    type: object
+    required: 
+      - id
+      - eventTypeIds
+      - sourceClientIds
+      - function
+      - actionTypeIds
+      - destUrlIds
+      - isActive
+    properties:
+      id: 
+        type: integer
+      eventTypeIds:
+        type: array
+        items: 
+          type: integer
+      sourceClientIds:
+        type: array
+        items: 
+          type: integer
+      function:
+        type: string
+      actionTypeIds:
+        type: array
+        items:
+          type: integer
+      destClientIds:
+        type: array
+        items:
+          type: integer
+      destUrlIds:
+        type: array
+        items:
+          type: integer
+      isActive:
+        type: boolean
+  RulePartial:
+    type: object
+    properties:
+      eventTypeIds:
+        type: array
+        items: 
+          type: integer
+      sourceClientIds:
+        type: array
+        items: 
+          type: integer
+      function:
+        type: string
+      actionTypeIds:
+        type: array
+        items:
+          type: integer
+      destClientIds:
+        type: array
+        items:
+          type: integer
+      destUrlIds:
+        type: array
+        items:
+          type: integer
+      isActive:
+        type: boolean
+  Url:
+    type: object
+    required: 
+      - id
+      - value
+    properties:
+      id:
+        type: integer
+      value: 
+        type: string
+  UrlPartial:
+    type: object
+    properties:
+      value: 
+        type: string
