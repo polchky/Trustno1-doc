@@ -279,8 +279,8 @@ The enclave provides a response for each request. It is always a JWE in the resp
 ```
 {
 	"header": {"alg": "dir", "kid": <session key id>}, 
-	"iv": BASE64URL-ENCODE(<iv>), 
 	"ciphertext": BASE64URL-ENCODE(<ciphertext>), 
+	"iv": BASE64URL-ENCODE(<iv>), 
 	"tag": BASE64URL-ENCODE(<tag>)
 }
 ```
